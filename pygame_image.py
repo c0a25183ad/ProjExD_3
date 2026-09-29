@@ -30,16 +30,16 @@ def main():
 
         key_lst=pg.key.get_pressed()
         
-        kk_rct.move_ip((-1 ,0))
+        x1=x2=y1=y2=0
         if key_lst[pg.K_UP]:
-            kk_rct.move_ip((0,-2))
+            y1=-2
         if key_lst[pg.K_DOWN]:
-            kk_rct.move_ip((0,2))
+            y2=2
         if key_lst[pg.K_RIGHT]:
-            kk_rct.move_ip((2,0))
+            x1=2
         if key_lst[pg.K_LEFT]:
-            kk_rct.move_ip((-2,0))
-        
+            x2=-2
+        kk_rct.move_ip((x1+x2-1 ,y1+y2))
         pg.display.update()
         tmr += 1        
         clock.tick(200)
