@@ -153,7 +153,8 @@ class Score:
 
     def update(self,screen: pg.Surface):
             """
-            j
+            引数：スクリーン
+            scoreを更新します
             """
             
             self.img=self.fonto.render(f"score:{self.value}",True,self.color)
