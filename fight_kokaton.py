@@ -159,12 +159,31 @@ class Score:
             self.img=self.fonto.render(f"score:{self.value}",True,self.color)
             screen.blit(self.img, self.rct)
 
+class Explosion:
+    def __init__(self,bomb,life):
+        self.img=pg.image.load("fig/explosion.gif")
+        self.reverse_img=pg.image.flip(self.img,True,True)
+        self.li=[self.img,self.reverse_img]
+        self.rct_img=self.img.get_rect()
+        self.rct_img.center=bomb.rct.center
+        self.life=life
+    def update(self,life,li):
+            """
+            j
+            """
+            self.life-=1
+            if life>0:
+                if self.li[0]==li:
+                    li=self.li[1]
+                else:
+                    li=self.li[0]
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
     bg_img = pg.image.load("fig/pg_bg.jpg")
     bird = Bird((300, 200))
+    Expls=[]
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
     score=Score()
     beams = []
@@ -198,6 +217,10 @@ def main():
                         bombs[i] = None
                         bird.change_img(6, screen)  # よろこびエフェクト
                         score.value+=1
+                        life=3
+                        explosion=Exception(bomb,life)
+                        Expls.append(explosion)
+                        explosion.update()
                         pg.display.update()  
                                       
         bombs = [bomb for bomb in bombs if bomb is not None]  # Noneを取り除く
