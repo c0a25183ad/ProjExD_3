@@ -1,4 +1,4 @@
-import os
+﻿import os
 import random
 import sys
 import time
@@ -141,6 +141,25 @@ class Bomb:
         screen.blit(self.img, self.rct)
 
 
+class Score:
+    def __init__(self,):
+        self.fonto=pg.font.Font(None,50)
+        self.value=0
+        self.color=(0,0,255)
+        self.img=self.fonto.render(f"score:{self.value}",0,self.color)
+        self.rct=self.img.get_rect()
+        self.rct.centerx=100
+        self.rct.centery=HEIGHT-50
+
+    def update(self,screen: pg.Surface):
+            """
+            j
+            """
+            
+            self.img=self.fonto.render(f"score:{self.value}",True,self.color)
+            screen.blit(self.img, self.rct)
+
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -151,6 +170,7 @@ def main():
     # for _ in range(NUM_OF_BOMBS):
     #     bombs.append(Bomb((255, 0, 0), 10))
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
+    score=Score()
     beam = None  # ゲーム初期化時にはビームは存在しない
     clock = pg.time.Clock()
     tmr = 0
@@ -180,7 +200,9 @@ def main():
                     beam = None
                     bombs[i] = None
                     bird.change_img(6, screen)  # よろこびエフェクト
-                    pg.display.update()                    
+                    score.value+=1
+                    pg.display.update()  
+                                      
         bombs = [bomb for bomb in bombs if bomb is not None]  # Noneを取り除く
 
         key_lst = pg.key.get_pressed()
@@ -189,7 +211,9 @@ def main():
             beam.update(screen)  
         for bomb in bombs: 
             bomb.update(screen)
+        score.update(screen)
         pg.display.update()
+        
         tmr += 1
         clock.tick(50)
 
